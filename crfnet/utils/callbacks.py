@@ -188,10 +188,17 @@ class Evaluate(keras.callbacks.Callback):
 
             self.tensorboard.writer.add_summary(summary, epoch)
 
-        logs['mAP'] = self.mean_ap
+            logs['mAP'] = self.mean_ap
 
-        if self.verbose == 1:
-            print('='*60)
-            print('mAP: {0:.4f} \t precision:{1:.4f} \t recall:{2:.4f}'.format(self.mean_ap, self.mean_precision, self.mean_recall))
-            if self.distance: print('mADE: {0:.2f} \t mRDE:{1:.2f}'.format(self.mean_loss_error, self.mean_loss_error_rel))
-            print('@scorethreshold {0:.2f}'.format(best_st))
+            if self.verbose == 1:
+                print('=' * 60)
+                print('mAP: {0:.4f} \t precision:{1:.4f} \t recall:{2:.4f}'.format(self.mean_ap, self.mean_precision,
+                                                                                   self.mean_recall))
+                f = open("outcome.txt", "a")
+                f.write('epoch ' + str(epoch + 1) + '\t mAP: {0:.4f} \t precision:{1:.4f} \t recall:{2:.4f}'.format(
+                    self.mean_ap, self.mean_precision, self.mean_recall))
+                f.write('\n')
+                f.close()
+                if self.distance: print(
+                    'mADE: {0:.2f} \t mRDE:{1:.2f}'.format(self.mean_loss_error, self.mean_loss_error_rel))
+                print('@scorethreshold {0:.2f}'.format(best_st))
